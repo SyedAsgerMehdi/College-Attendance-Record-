@@ -186,23 +186,27 @@ def courses():
     if request.method == "POST":
         code = request.form.get("code", "").strip().upper()
         name = request.form.get("name", "").strip()
-        teacher_id = request.form.get("teacher_id", type=int)
+        teacher_name = request.form.get("teacher_name", "").strip()
 
-        if not code or not name:
-            flash("Course code and name are required.", "error")
+        if not code or not name or not teacher_name:
+            flash("Course code, name, and teacher name are required.", "error")
             return redirect(url_for("main.courses"))
 
         if Course.query.filter_by(code=code).first():
             flash("Course code already exists.", "error")
             return redirect(url_for("main.courses"))
 
-        if current_user.role == "teacher":
-            teacher_id = current_user.id
-        elif not teacher_id:
-            flash("Please select a teacher.", "error")
-            return redirect(url_for("main.courses"))
+        # Find or create the teacher user
+        teacher = User.query.filter_by(username=teacher_name).first()
+        if not teacher:
+            teacher = User(username=teacher_name, role="teacher")
+            default_password = f"{teacher_name.lower().replace(' ', '')}123"
+            teacher.set_password(default_password)
+            db.session.add(teacher)
+            db.session.commit()
+            flash(f"Created new teacher user '{teacher_name}' with default password '{default_password}'.", "info")
 
-        course = Course(code=code, name=name, teacher_id=teacher_id)
+        course = Course(code=code, name=name, teacher_id=teacher.id)
         db.session.add(course)
         db.session.commit()
         flash("Course created successfully.", "success")
@@ -212,9 +216,8 @@ def courses():
         all_courses = Course.query.order_by(Course.code).all()
     else:
         all_courses = Course.query.filter_by(teacher_id=current_user.id).order_by(Course.code).all()
-    teachers = User.query.filter_by(role="teacher").order_by(User.username).all()
 
-    return render_template("courses.html", courses=all_courses, teachers=teachers)
+    return render_template("courses.html", courses=all_courses)
 
 
 @main_bp.route("/courses/<int:course_id>")

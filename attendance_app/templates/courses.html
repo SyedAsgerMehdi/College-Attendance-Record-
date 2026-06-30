@@ -12,17 +12,10 @@
             <label>Course Name</label>
             <input type="text" name="name" required />
         </div>
-        {% if current_user.role == 'admin' %}
         <div>
-            <label>Teacher</label>
-            <select name="teacher_id" required>
-                <option value="">Select Teacher</option>
-                {% for teacher in teachers %}
-                <option value="{{ teacher.id }}">{{ teacher.username }}</option>
-                {% endfor %}
-            </select>
+            <label>Teacher Name</label>
+            <input type="text" name="teacher_name" value="{{ current_user.username if current_user.role == 'teacher' else '' }}" placeholder="Enter teacher name" required />
         </div>
-        {% endif %}
         <button type="submit">Create Course</button>
     </form>
 </section>
