@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <p class="eyebrow">Bangalore Luxury Jewellery House</p>
+            <h1>Radiant Gemstones. Elegant Jewellery. Timeless Craft.</h1>
+            <p class="hero-copy">Explore premium bracelets, rings, and statement jewellery curated to reflect clarity, confidence, and luxury.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="{{ url_for('shop') }}">Shop Collection</a>
+                <a class="btn btn-whatsapp" href="{{ whatsapp_link }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+            </div>
+        </div>
+        <div class="hero-card">
+            <h2>Signature Promise</h2>
+            <ul>
+                <li>Authentic gemstone-inspired designs</li>
+                <li>Elegant handcrafted finishing</li>
+                <li>Fast WhatsApp support for custom orders</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="section container">
+    <div class="section-head">
+        <h2>Featured Products</h2>
+        <a class="link-inline" href="{{ url_for('shop') }}">View all</a>
+    </div>
+    <div class="product-grid">
+        {% for product in products %}
+        <article class="card">
+            {% if product.image_data %}
+            <img src="{{ image_data_uri(product) }}" alt="{{ product.name }}" loading="lazy" />
+            {% elif product.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" alt="{{ product.name }}" loading="lazy" />
+            {% else %}
+            <div class="placeholder">A.M Gems and Jewellery</div>
+            {% endif %}
+            <div class="card-body">
+                <p class="chip">{{ product.category }}</p>
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <div class="card-row">
+                    <strong>INR {{ product.price|inr }}</strong>
+                    <a class="btn btn-whatsapp btn-small" href="{{ whatsapp_link }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+                </div>
+            </div>
+        </article>
+        {% else %}
+        <p>No products uploaded yet. Visit product upload to add your first item.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section muted">
+    <div class="container">
+        <div class="section-head">
+            <h2>What Customers Say</h2>
+            <a class="link-inline" href="{{ url_for('testimonials') }}">Read all</a>
+        </div>
+        <div class="testimonial-grid">
+            {% for t in testimonials %}
+            <article class="testimonial">
+                <p>"{{ t.quote }}"</p>
+                <h4>{{ t.name }}</h4>
+                <span>{{ t.city }}</span>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

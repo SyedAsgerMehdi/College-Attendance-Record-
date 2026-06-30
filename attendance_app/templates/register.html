@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Create User{% endblock %}
+{% block content %}
+<section class="card narrow">
+    <h2>Create New User</h2>
+    <form method="post" class="form-grid">
+        <label>Username</label>
+        <input type="text" name="username" required />
+
+        <label>Password</label>
+        <input type="password" name="password" required />
+
+        <label>Role</label>
+        <select name="role" required>
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <button type="submit">Create User</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Course Report{% endblock %}
+{% block content %}
+<section class="card">
+    <div class="row between center">
+        <h2>Attendance Report: {{ course.code }} - {{ course.name }}</h2>
+        <a class="btn-link" href="{{ url_for('main.course_report_csv', course_id=course.id) }}">Download CSV</a>
+    </div>
+    {% if rows %}
+    <table>
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Total</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.student.roll_number }}</td>
+                <td>{{ row.student.full_name }}</td>
+                <td>{{ row.total }}</td>
+                <td>{{ row.present }}</td>
+                <td>{{ row.absent }}</td>
+                <td>{{ row.percentage }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No data available for this course yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

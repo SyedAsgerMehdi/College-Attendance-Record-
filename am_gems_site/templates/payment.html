@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section container payment-wrap">
+    <p class="eyebrow">Secure Checkout</p>
+    <h1>Pay with GPay / PhonePe</h1>
+    <article class="payment-card">
+        <h2>{{ product.name }}</h2>
+        {% if order_id %}
+        <p><strong>Order ID:</strong> {{ order_id }}</p>
+        {% endif %}
+        <p>{{ product.description }}</p>
+        <p><strong>Amount:</strong> INR {{ product.price|inr }}</p>
+        <p><strong>UPI ID:</strong> {{ upi_id }}</p>
+        <p><strong>GPay / PhonePe Number:</strong> {{ payment_number }}</p>
+        <div class="pay-actions">
+            <a class="btn btn-primary" href="{{ upi_url }}">Pay to UPI ID</a>
+            {% if order_id and razorpay_enabled %}
+            <a class="btn btn-ghost" href="{{ url_for('pay_razorpay', product_id=product.id, order_id=order_id) }}">Razorpay Secure Checkout</a>
+            {% endif %}
+            {% if phonepe_redirect %}
+            <a class="btn btn-ghost" href="{{ phonepe_redirect }}" target="_blank" rel="noopener">PhonePe Checkout</a>
+            {% endif %}
+            <a class="btn btn-small" href="{{ whatsapp_payment_help }}" target="_blank" rel="noopener">Payment Help on WhatsApp</a>
+        </div>
+        <p class="small">Your order details and delivery address are saved for parcel dispatch. Admin notification is sent after checkout.</p>
+        <p class="small">This payment is directed to UPI ID {{ upi_id }}. If GPay does not open on desktop, scan the UPI details in your mobile app and pay to {{ upi_id }} or use {{ payment_number }} for GPay / PhonePe support.</p>
+    </article>
+</section>
+{% endblock %}

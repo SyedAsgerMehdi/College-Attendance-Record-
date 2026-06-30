@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<section class="grid-3">
+    <div class="card stat">
+        <h3>{{ total_students }}</h3>
+        <p>Total Students</p>
+    </div>
+    <div class="card stat">
+        <h3>{{ total_courses }}</h3>
+        <p>Your Courses</p>
+    </div>
+    <div class="card stat">
+        <h3>{{ total_records }}</h3>
+        <p>Attendance Records</p>
+    </div>
+</section>
+
+<section class="card">
+    <div class="row between center">
+        <h2>Courses</h2>
+        <a class="btn-link" href="{{ url_for('main.courses') }}">Manage Courses</a>
+    </div>
+    {% if courses %}
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Teacher</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.code }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.teacher.username }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('main.course_detail', course_id=course.id) }}">Open</a>
+                    <a href="{{ url_for('main.mark_attendance', course_id=course.id) }}">Mark</a>
+                    <a href="{{ url_for('main.course_report', course_id=course.id) }}">Report</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No courses yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

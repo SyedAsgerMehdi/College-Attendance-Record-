@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Course Details{% endblock %}
+{% block content %}
+<section class="card">
+    <div class="row between center">
+        <div>
+            <h2>{{ course.code }} - {{ course.name }}</h2>
+            <p class="muted">Teacher: {{ course.teacher.username }}</p>
+        </div>
+        <div class="actions">
+            <a href="{{ url_for('main.mark_attendance', course_id=course.id) }}">Mark Attendance</a>
+            <a href="{{ url_for('main.course_report', course_id=course.id) }}">View Report</a>
+        </div>
+    </div>
+</section>
+
+<section class="card">
+    <h3>Enroll Student</h3>
+    <form method="post" action="{{ url_for('main.enroll_student', course_id=course.id) }}" class="form-grid">
+        <label>Select Student</label>
+        <select name="student_id" required>
+            <option value="">Select</option>
+            {% for student in available_students %}
+            <option value="{{ student.id }}">{{ student.roll_number }} - {{ student.full_name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Enroll</button>
+    </form>
+</section>
+
+<section class="card">
+    <h3>Enrolled Students</h3>
+    {% if enrolled_students %}
+    <table>
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in enrolled_students %}
+            <tr>
+                <td>{{ student.roll_number }}</td>
+                <td>{{ student.full_name }}</td>
+                <td>{{ student.email or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No enrolled students.</p>
+    {% endif %}
+</section>
+
+<section class="card">
+    <h3>Recent Attendance</h3>
+    {% if recent_records %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Student</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in recent_records %}
+            <tr>
+                <td>{{ record.day }}</td>
+                <td>{{ record.student.full_name }}</td>
+                <td>{{ record.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No attendance records yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

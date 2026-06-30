@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section container payment-wrap">
+    <p class="eyebrow">Checkout</p>
+    <h1>Complete Order Details</h1>
+    <article class="payment-card">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p><strong>Amount:</strong> INR {{ product.price|inr }}</p>
+
+        <div class="upi-highlight">
+            <span class="upi-label">UPI ID</span>
+            <strong>8310614641@axl</strong>
+            <p>Payment will be directed to this UPI ID after you continue to payment.</p>
+        </div>
+
+        <form class="upload-form" method="post" action="{{ url_for('order_checkout', product_id=product.id) }}">
+            <label for="customer_name">Full Name</label>
+            <input id="customer_name" name="customer_name" type="text" required />
+
+            <label for="customer_email">Email</label>
+            <input id="customer_email" name="customer_email" type="email" required />
+
+            <label for="customer_phone">Phone</label>
+            <input id="customer_phone" name="customer_phone" type="tel" required />
+
+            <label for="house_number">House / Flat Number</label>
+            <input id="house_number" name="house_number" type="text" placeholder="House or flat number" required />
+
+            <label for="street">Street / Area</label>
+            <input id="street" name="street" type="text" placeholder="Street name or locality" required />
+
+            <label for="city">City</label>
+            <input id="city" name="city" type="text" required />
+
+            <label for="state">State</label>
+            <input id="state" name="state" type="text" required />
+
+            <label for="pincode">Pincode</label>
+            <input id="pincode" name="pincode" type="text" inputmode="numeric" pattern="[0-9]{6}" placeholder="6-digit pincode" required />
+
+            <label for="landmark">Landmark</label>
+            <input id="landmark" name="landmark" type="text" placeholder="Optional landmark" />
+
+            <label for="payment_method">Preferred Payment Method</label>
+            <select id="payment_method" name="payment_method" required>
+                <option value="gpay">GPay / UPI</option>
+                <option value="razorpay" {% if not razorpay_enabled %}disabled{% endif %}>Razorpay Secure Checkout</option>
+            </select>
+
+            <button class="btn btn-primary" type="submit">Continue to Payment</button>
+        </form>
+    </article>
+</section>
+{% endblock %}

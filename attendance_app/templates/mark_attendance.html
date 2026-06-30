@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Mark Attendance{% endblock %}
+{% block content %}
+<section class="card">
+    <h2>Mark Attendance: {{ course.code }} - {{ course.name }}</h2>
+    {% if students %}
+    <form method="post">
+        <div class="form-grid">
+            <label>Date</label>
+            <input type="date" name="day" required />
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Name</th>
+                    <th>Present</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.roll_number }}</td>
+                    <td>{{ student.full_name }}</td>
+                    <td><input type="checkbox" name="student_{{ student.id }}" /></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Save Attendance</button>
+    </form>
+    {% else %}
+    <p class="muted">No students enrolled in this course.</p>
+    {% endif %}
+</section>
+{% endblock %}

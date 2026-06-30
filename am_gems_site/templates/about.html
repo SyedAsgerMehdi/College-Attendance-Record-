@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block footer_panel %}{% endblock %}
+{% block content %}
+<section class="section container about-grid">
+    <div>
+        <p class="eyebrow">About Us</p>
+        <h1>Crafting Modern Heirlooms in Bangalore</h1>
+        <p>A.M Gems and Jewellery was founded to bring gemstone elegance into everyday wear. Our collections combine refined craftsmanship with gemstone-inspired tones for a look that is both bold and graceful.</p>
+        <p>Each piece is selected for design quality, comfort, and visual brilliance. We serve customers with personalized guidance and reliable service.</p>
+    </div>
+    <aside class="info-panel">
+        <h2 class="why-choose-heading">Why Choose Us</h2>
+        <p class="small">Discover jewellery that feels as special as your moments, crafted to add confidence and elegance every day.</p>
+        <p class="small">From meaningful gemstones to modern finishing, each piece is selected to bring luxury, comfort, and lasting shine.</p>
+        <p class="small"><strong>Explore Our Collection:</strong></p>
+        <div class="category-list compact">
+            <a class="category-link" href="{{ url_for('shop', category='Precious/Semi-Precious Gemstones') }}">Precious/Semi-Precious Gemstones</a>
+            <a class="category-link" href="{{ url_for('shop', category='Rashi Gemstones') }}">Rashi Gemstones</a>
+            <a class="category-link" href="{{ url_for('shop', category='Bracelets') }}">Bracelets</a>
+            <a class="category-link" href="{{ url_for('shop', category='Rings') }}">Rings</a>
+            <a class="category-link" href="{{ url_for('shop', category='Pendants') }}">Pendants</a>
+            <a class="category-link" href="{{ url_for('shop', category='Other Jewellery') }}">Other Jewellery</a>
+        </div>
+    </aside>
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section container">
+    <p class="eyebrow">Inventory Admin</p>
+    <h1>Manage Products</h1>
+    <div class="admin-cards">
+        {% for product in products %}
+        <article class="admin-card">
+            <h2>{{ product.name }}</h2>
+            <p><strong>Current Price:</strong> INR {{ product.price|inr }}</p>
+
+            <form class="upload-form" method="post" enctype="multipart/form-data" action="{{ url_for('admin_product_update', product_id=product.id) }}">
+                <label>Name</label>
+                <input type="text" name="name" value="{{ product.name }}" required />
+
+                <label>Category</label>
+                <select name="category" required>
+                    {% for category in categories %}
+                    <option value="{{ category }}" {% if product.category == category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Description</label>
+                <textarea name="description" rows="3" required>{{ product.description }}</textarea>
+
+                <label>Price (INR)</label>
+                <input type="number" name="price" min="1" step="0.01" value="{{ product.price }}" required />
+
+                <label>Replace Image</label>
+                <input type="file" name="image" accept=".png,.jpg,.jpeg,.webp" />
+
+                <button class="btn btn-primary" type="submit">Update Product</button>
+            </form>
+
+            <form method="post" action="{{ url_for('admin_product_delete', product_id=product.id) }}">
+                <button class="btn btn-danger" type="submit" onclick="return confirm('Delete this product?')">Delete Product</button>
+            </form>
+        </article>
+        {% else %}
+        <p>No products uploaded yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

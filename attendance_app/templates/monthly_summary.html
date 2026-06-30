@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Monthly Summary{% endblock %}
+{% block content %}
+<section class="card">
+    <h2>Monthly Attendance Summary</h2>
+    <form method="get" class="form-grid">
+        <label>Select Month</label>
+        <input type="month" name="month" value="{{ selected_month }}" required />
+        <button type="submit">View Summary</button>
+    </form>
+</section>
+
+{% for item in course_summaries %}
+<section class="card">
+    <h3>{{ item.course.code }} - {{ item.course.name }}</h3>
+    {% if item.rows %}
+    <table>
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Total</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in item.rows %}
+            <tr>
+                <td>{{ row.student.roll_number }}</td>
+                <td>{{ row.student.full_name }}</td>
+                <td>{{ row.total }}</td>
+                <td>{{ row.present }}</td>
+                <td>{{ row.absent }}</td>
+                <td>{{ row.percentage }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No attendance data for this month.</p>
+    {% endif %}
+</section>
+{% else %}
+<section class="card">
+    <p class="muted">No courses available.</p>
+</section>
+{% endfor %}
+{% endblock %}

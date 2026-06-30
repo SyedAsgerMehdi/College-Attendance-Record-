@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title desc">
+  <title id="title">A.M Gems and Jewellery Circular Logo</title>
+  <desc id="desc">Circular luxury logo with a diamond symbol and A.M Gems and Jewellery wordmark</desc>
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1d3240"/>
+      <stop offset="55%" stop-color="#0c1f29"/>
+      <stop offset="100%" stop-color="#061018"/>
+    </radialGradient>
+    <linearGradient id="ringGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff3cb"/>
+      <stop offset="38%" stop-color="#e1c06a"/>
+      <stop offset="72%" stop-color="#9f6f1c"/>
+      <stop offset="100%" stop-color="#f6e0a0"/>
+    </linearGradient>
+    <linearGradient id="diamondFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbfdff"/>
+      <stop offset="34%" stop-color="#d8eef9"/>
+      <stop offset="68%" stop-color="#8ec1d9"/>
+      <stop offset="100%" stop-color="#f3fbff"/>
+    </linearGradient>
+    <linearGradient id="diamondFacetA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#c7e6f3"/>
+    </linearGradient>
+    <linearGradient id="wordmark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fff7e4"/>
+      <stop offset="50%" stop-color="#edd6a1"/>
+      <stop offset="100%" stop-color="#fff9ef"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <circle cx="180" cy="180" r="170" fill="url(#bgGlow)"/>
+  <circle cx="180" cy="180" r="165" fill="none" stroke="url(#ringGold)" stroke-width="10"/>
+  <circle cx="180" cy="180" r="148" fill="none" stroke="#24414d" stroke-width="2" opacity="0.85"/>
+
+  <g filter="url(#glow)">
+    <path d="M180 74L231 127 180 196 129 127Z" fill="url(#diamondFill)"/>
+    <path d="M180 74L214 127 180 112 146 127Z" fill="url(#diamondFacetA)"/>
+    <path d="M129 127L180 196 146 127Z" fill="#bfdced" opacity="0.95"/>
+    <path d="M231 127L180 196 214 127Z" fill="#c3dff0" opacity="0.95"/>
+    <path d="M146 127L180 112 214 127" fill="none" stroke="#ffffff" stroke-opacity="0.72" stroke-width="3" stroke-linecap="round"/>
+    <path d="M180 74L180 196M146 127L214 127M129 127L180 74M231 127L180 74M129 127L180 196M231 127L180 196" stroke="#eff8ff" stroke-opacity="0.62" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <text x="180" y="252" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="31" font-weight="700" letter-spacing="2.1" fill="url(#wordmark)">A.M GEMS</text>
+  <text x="180" y="282" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="4.8" fill="#d9e8ef">AND JEWELLERY</text>
+</svg>

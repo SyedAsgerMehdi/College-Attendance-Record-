@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section container payment-wrap">
+    <p class="eyebrow">Admin Access</p>
+    <h1>Admin Login</h1>
+    <article class="payment-card">
+        <p>Log in to manage product upload, updates, and deletion.</p>
+        <form class="upload-form" method="post" action="{{ url_for('admin_login') }}">
+            <input type="hidden" name="next" value="{{ next_url }}" />
+
+            <label for="admin_code">Admin Password</label>
+            <input id="admin_code" name="admin_code" type="password" required />
+
+            <button class="btn btn-primary" type="submit">Sign In</button>
+        </form>
+    </article>
+</section>
+{% endblock %}

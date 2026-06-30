@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section container">
+    <div class="section-head">
+        <h1>Shop Gemstone Collection</h1>
+        <a class="btn btn-ghost" href="{{ url_for('admin_upload') }}">Upload Product</a>
+    </div>
+
+    <form class="filter-form search-form" method="get" action="{{ url_for('shop') }}">
+        <label for="q">Search categories or products</label>
+        <input id="q" name="q" type="text" value="{{ search_query }}" placeholder="Search by category, product name, or keyword" />
+        <button class="btn btn-primary" type="submit">Search</button>
+        {% if search_query %}
+        <a class="btn btn-ghost" href="{{ url_for('shop') }}">Clear Search</a>
+        {% endif %}
+    </form>
+
+    <aside class="category-panel">
+        <p class="eyebrow">Categories</p>
+        <form class="filter-form" method="get" action="{{ url_for('shop') }}">
+            <label for="category">Select a category</label>
+            <select id="category" name="category">
+                <option value="">All Categories</option>
+                {% for c in categories %}
+                <option value="{{ c }}" {% if c == selected_category %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+            </select>
+            {% if search_query %}
+            <input type="hidden" name="q" value="{{ search_query }}" />
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Apply Category</button>
+            {% if selected_category %}
+            <a class="btn btn-ghost" href="{{ url_for('shop', q=search_query) if search_query else url_for('shop') }}">Clear Category</a>
+            {% endif %}
+        </form>
+    </aside>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <article class="card">
+            {% if product.image_data %}
+            <img src="{{ image_data_uri(product) }}" alt="{{ product.name }}" loading="lazy" />
+            {% elif product.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' + product.image_filename) }}" alt="{{ product.name }}" loading="lazy" />
+            {% else %}
+            <div class="placeholder">A.M Gems and Jewellery</div>
+            {% endif %}
+            <div class="card-body">
+                <p class="chip">{{ product.category }}</p>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <div class="card-row">
+                    <strong>INR {{ product.price|inr }}</strong>
+                </div>
+                <div class="card-row">
+                    <a class="btn btn-primary" href="{{ url_for('order_checkout', product_id=product.id) }}">Buy Now</a>
+                    <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number_digits }}?text={{ ('Hi A.M Gems and Jewellery, I want to buy ' ~ product.name)|urlencode }}">Chat on WhatsApp</a>
+                </div>
+            </div>
+        </article>
+        {% else %}
+        <p>No products found in this category.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section container">
+    <p class="eyebrow">Orders</p>
+    <h1>Customer Orders</h1>
+    {% if latest_order %}
+    <article class="order-alert">
+        <strong>New order placed:</strong> #{{ latest_order.id }} for {{ latest_order.product.name }} by {{ latest_order.customer_name }}.
+        Customer address, phone, and payment method are captured below for parcel dispatch and follow-up.
+    </article>
+    {% endif %}
+    <div class="admin-cards">
+        {% for order in orders %}
+        <article class="admin-card">
+            <h2>#{{ order.id }} - {{ order.product.name }}</h2>
+            <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+            <p><strong>Email:</strong> {{ order.customer_email }}</p>
+            <p><strong>Phone:</strong> {{ order.customer_phone }}</p>
+            <p><strong>Address:</strong> {{ order.address }}</p>
+            <p><strong>Amount:</strong> INR {{ order.amount|inr }}</p>
+            <p><strong>Payment Method:</strong> {{ order.payment_method|upper }}</p>
+            <p><strong>Status:</strong> {{ order.status|upper }}</p>
+            <p><strong>Date:</strong> {{ order.created_at.strftime('%d %b %Y %I:%M %p') }}</p>
+        </article>
+        {% else %}
+        <p>No orders yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section container">
+    <p class="eyebrow">Testimonials</p>
+    <h1>Trusted by Jewellery Enthusiasts</h1>
+    <div class="testimonial-grid">
+        {% for t in testimonials %}
+        <article class="testimonial">
+            {% set rating = t.rating | int %}
+            {% if rating < 0 %}
+                {% set rating = 0 %}
+            {% elif rating > 5 %}
+                {% set rating = 5 %}
+            {% endif %}
+            <div class="stars">{% for _ in range(rating) %}&#9733;{% endfor %}{% for _ in range(5 - rating) %}&#9734;{% endfor %}</div>
+            <p>"{{ t.quote }}"</p>
+            <h3>{{ t.name }}</h3>
+            <span>{{ t.city }}</span>
+        </article>
+        {% else %}
+        <p>No testimonials yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

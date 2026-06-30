@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<section class="card">
+    <h2>Add Student</h2>
+    <form method="post" class="form-grid three">
+        <div>
+            <label>Full Name</label>
+            <input type="text" name="full_name" required />
+        </div>
+        <div>
+            <label>Roll Number</label>
+            <input type="text" name="roll_number" required />
+        </div>
+        <div>
+            <label>Email (Optional)</label>
+            <input type="email" name="email" />
+        </div>
+        <button type="submit">Add Student</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>All Students</h2>
+    {% if students %}
+    <table>
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.roll_number }}</td>
+                <td>{{ student.full_name }}</td>
+                <td>{{ student.email or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No students added yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

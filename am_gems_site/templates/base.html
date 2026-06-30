@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }} | {{ site_name }}</title>
+    <meta name="description" content="{{ meta_description }}" />
+    <meta name="keywords" content="gemstone jewellery Bangalore, gemstone bracelets, gemstone rings, luxury jewellery" />
+    <meta name="author" content="A.M Gems and Jewellery" />
+    <meta property="og:title" content="{{ title }} | {{ site_name }}" />
+    <meta property="og:description" content="{{ meta_description }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="{{ request.url }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "JewelryStore",
+    "name": "A.M Gems and Jewellery",
+      "url": "{{ site_url }}",
+            "description": "Luxury gemstone bracelets, rings, and jewellery.",
+            "paymentAccepted": "GPay, PhonePe, UPI",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bangalore",
+        "addressRegion": "Karnataka",
+        "addressCountry": "IN"
+      }
+    }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container nav-wrap">
+            <a class="brand" href="{{ url_for('home') }}">
+                <img class="brand-logo" src="{{ url_for('static', filename='logo.svg') }}" alt="A.M Gems and Jewellery logo" />
+                <span class="brand-wordmark">A.M Gems and Jewellery</span>
+            </a>
+            <nav class="nav" aria-label="Main navigation">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('shop') }}">Shop</a>
+                <a href="{{ url_for('about') }}">About Us</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+                <a href="{{ url_for('testimonials') }}">Testimonials</a>
+            </nav>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <section class="flash-wrap container" aria-live="polite">
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    </section>
+    {% endif %}
+    {% endwith %}
+
+    <main>
+        {% if admin_logged_in and latest_order and request.endpoint not in ['admin_orders', 'admin_login'] %}
+        <section class="container">
+            <article class="order-alert">
+                <strong>New order placed:</strong> #{{ latest_order.id }} for {{ latest_order.product.name }} by {{ latest_order.customer_name }}.
+                Open Orders to view the customer address for parcel dispatch.
+            </article>
+        </section>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        {% set endpoint_name = request.endpoint or '' %}
+        <div class="container footer-grid">
+            <div>
+                <h3>A.M Gems and Jewellery</h3>
+                <p>Fine gemstone jewellery curated for elegance and daily luxury.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="{{ url_for('shop') }}">Shop</a>
+                <a href="{{ url_for('contact') }}">Enquiry</a>
+                {% if admin_logged_in %}
+                <a href="{{ url_for('admin_upload') }}">Product Upload</a>
+                <a href="{{ url_for('admin_products') }}">Manage Products</a>
+                <a class="admin-orders-link" href="{{ url_for('admin_orders') }}">Orders <span class="order-badge">{{ admin_order_count }}</span></a>
+                <form method="post" action="{{ url_for('admin_logout') }}">
+                    <button class="btn btn-small" type="submit">Admin Logout</button>
+                </form>
+                {% else %}
+                <a href="{{ url_for('admin_login') }}">Admin Login</a>
+                {% endif %}
+            </div>
+            {% if request.path == '/shop' %}
+            <div>
+                <h4>Chat</h4>
+                <p>Tap to chat with A.M Gems and Jewellery on WhatsApp.</p>
+                <a class="btn btn-whatsapp" href="{{ whatsapp_link }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+            </div>
+            {% elif request.path not in ['/about', '/contact'] and endpoint_name not in ['home', 'admin_login'] %}
+            <div>
+                <h4>Payment</h4>
+                <p>UPI ID: <strong>{{ upi_id }}</strong></p>
+                <p>GPay / PhonePe Number: <strong>{{ payment_number }}</strong></p>
+                <p>Chat directly on WhatsApp: <strong>{{ whatsapp_number }}</strong></p>
+                <a class="btn btn-small" href="{{ whatsapp_link }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+            </div>
+            {% endif %}
+        </div>
+        <p class="footer-copy">&copy; {{ year }} A.M Gems and Jewellery. All rights reserved.</p>
+    </footer>
+</body>
+</html>

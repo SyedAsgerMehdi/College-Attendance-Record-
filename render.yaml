@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: am-gems-and-jewellery
+    env: python
+    rootDir: am_gems_site
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 1 --threads 2 --bind 0.0.0.0:$PORT am_gems_bangalore:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: AM_GEMS_SECRET_KEY
+        generateValue: true
+      - key: AM_GEMS_DB_PATH
+        value: /tmp/am_gems.db
+      - key: AM_GEMS_UPLOAD_CODE
+        value: amgems2026
+      - key: AM_GEMS_UPI_ID
+        value: 8310614641@axl
+      - key: AM_GEMS_PAYMENT_NUMBER
+        value: 8310614641
+      - key: AM_GEMS_WHATSAPP_NUMBER
+        value: +918310614641
